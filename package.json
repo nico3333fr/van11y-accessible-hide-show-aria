@@ -1,0 +1,51 @@
+{
+  "title": "Van11y accessible hide/show (collapsible regions) using ARIA",
+  "name": "van11y-accessible-hide-show-aria",
+  "description": "ES2015 accessible hide-show system (collapsible regions), using ARIA",
+  "version": "1.0.0",
+  "keywords": [
+    "Accessibility",
+    "ARIA",
+    "hide/show",
+    "collapsible regions",
+    "a11y",
+	  "ES6",
+	  "ES2015",
+    "Vanilla Javascript Plugin"
+  ],
+  "scripts": {
+    "build": "gulp",
+    "build:es5": "gulp es5"
+  },
+  "author": [
+    {
+      "name": "Nicolas Hoffmann",
+      "email": "dante3333@gmail.com",
+      "web": "https://www.nicolas-hoffmann.net/"
+    }
+  ],
+  "bugs": {
+    "url": "https://github.com/nico3333fr/van11y-accessible-hide-show-aria/issues"
+  },
+  "repository": [
+    {
+      "type": "git",
+      "url": "https://github.com/nico3333fr/van11y-accessible-hide-show-aria.git"
+    }
+  ],
+  "licenses": [
+    {
+      "name": "MIT",
+      "url": "https://github.com/nico3333fr/van11y-accessible-hide-show-aria/blob/master/LICENSE"
+    }
+  ],
+  "homepage": "https://van11y.net/accessible-hide-show/",
+  "devDependencies": {
+    "gulp": "^3.9.0",
+    "gulp-babel": "^5.3.0",
+    "gulp-rename": "^1.2.2",
+    "gulp-uglify": "^1.4.2",
+	"gulp-header": "^1.7.1"
+  }
+  
+}
