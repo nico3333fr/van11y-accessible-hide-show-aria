@@ -1,0 +1,37 @@
+{
+  "name": "van11y-accessible-hide-show-aria",
+  "description": "ES2015 accessible hide-show system (collapsible regions), using ARIA (compatible IE9+ when transpiled)",
+  "homepage": "https://van11y.net/accessible-hide-show/",
+  "main": "van11y-accessible-hide-show-aria.es6.js",
+  "version": "1.0.0",
+  "keywords": [
+    "Accessibility",
+    "ARIA",
+    "hide/show",
+    "collapsible regions",
+    "a11y",
+    "ES6",
+    "ES2015",
+    "Vanilla Javascript Plugin"
+  ],
+  "authors": [
+    {
+      "name": "Nicolas Hoffmann",
+      "email": "dante3333@gmail.com",
+      "web": "https://www.nicolas-hoffmann.net/"
+    }
+  ],
+  "repositories": [
+    {
+      "type": "git",
+      "url": "git://github.com/nico3333fr/van11y-accessible-hide-show-aria.git"
+    }
+  ],
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "README.md"
+  ]
+}
