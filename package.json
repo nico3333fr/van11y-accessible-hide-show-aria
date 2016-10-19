@@ -1,7 +1,7 @@
 {
   "title": "Van11y accessible hide/show (collapsible regions) using ARIA",
   "name": "van11y-accessible-hide-show-aria",
-  "description": "ES2015 accessible hide-show system (collapsible regions), using ARIA",
+  "description": "ES2015 accessible hide-show system (collapsible regions), using ARIA (compatible IE9+ when transpiled)",
   "version": "1.0.0",
   "keywords": [
     "Accessibility",
@@ -9,8 +9,8 @@
     "hide/show",
     "collapsible regions",
     "a11y",
-	  "ES6",
-	  "ES2015",
+    "ES6",
+    "ES2015",
     "Vanilla Javascript Plugin"
   ],
   "scripts": {
