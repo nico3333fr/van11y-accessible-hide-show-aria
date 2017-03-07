@@ -102,7 +102,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       // create a button with all attributes
       addClass(expandButton, prefixClassName + HIDESHOW_BUTTON_EXPAND_STYLE);
       addClass(expandButton, HIDESHOW_BUTTON_EXPAND);
-      setAttributes(expandButton, (_setAttributes = {}, _defineProperty(_setAttributes, ATTR_CONTROL, HIDESHOW_TO_EXPAND_ID + iLisible), _defineProperty(_setAttributes, ATTR_EXPANDED, 'false'), _defineProperty(_setAttributes, 'id', HIDESHOW_BUTTON_LABEL_ID + iLisible), _setAttributes));
+      setAttributes(expandButton, (_setAttributes = {}, _defineProperty(_setAttributes, ATTR_CONTROL, HIDESHOW_TO_EXPAND_ID + iLisible), _defineProperty(_setAttributes, ATTR_EXPANDED, 'false'), _defineProperty(_setAttributes, 'id', HIDESHOW_BUTTON_LABEL_ID + iLisible), _defineProperty(_setAttributes, 'type', 'button'), _setAttributes));
       expandButton.innerHTML = expandmoreText;
 
       // Button goes into node
