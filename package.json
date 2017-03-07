@@ -2,7 +2,7 @@
   "title": "Van11y accessible hide/show (collapsible regions) using ARIA",
   "name": "van11y-accessible-hide-show-aria",
   "description": "ES2015 accessible hide-show system (collapsible regions), using ARIA (compatible IE9+ when transpiled)",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "keywords": [
     "Accessibility",
     "ARIA",
@@ -33,7 +33,7 @@
       "url": "https://github.com/nico3333fr/van11y-accessible-hide-show-aria.git"
     }
   ],
-  "licenses": [
+  "license": [
     {
       "name": "MIT",
       "url": "https://github.com/nico3333fr/van11y-accessible-hide-show-aria/blob/master/LICENSE"
