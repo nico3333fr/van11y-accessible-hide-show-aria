@@ -105,7 +105,8 @@
       setAttributes(expandButton, {
          [ATTR_CONTROL] : HIDESHOW_TO_EXPAND_ID + iLisible ,
          [ATTR_EXPANDED] : 'false' ,
-         'id' : HIDESHOW_BUTTON_LABEL_ID + iLisible
+         'id' : HIDESHOW_BUTTON_LABEL_ID + iLisible ,
+         'type' : 'button'
       });
       expandButton.innerHTML = expandmoreText;
       
