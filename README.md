@@ -22,7 +22,7 @@ Basically, it transforms this:
 Into this:
 ```
 <h2 class="js-expandmore">
-  <button data-controls="expand_1" aria-expanded="false" class="expandmore__button">Lorem dolor si amet</button>
+  <button data-controls="expand_1" aria-expanded="false" class="expandmore__button" type="button">Lorem dolor si amet</button>
 </h2>
 <div id="expand_1" class="js-to_expand" data-labelledby="label_expand_1" data-hidden="true">
    here the hidden content
@@ -90,7 +90,7 @@ It is possible and very simple, just use the attribute ```data-hideshow-prefix-c
 It will prefix generated classes, ```<your_value>-expandmore__button``` and ```<your_value>-expandmore__to_expand```, like this:
 ```
 <h2 class="js-expandmore" data-hideshow-prefix-class="mini-combo">
- <button id="label_expand_2" class="mini-combo-expandmore__button js-expandmore-button" data-controls="expand_2" aria-expanded="false">
+ <button id="label_expand_2" class="mini-combo-expandmore__button js-expandmore-button" data-controls="expand_2" aria-expanded="false" type="button">
   Lorem dolor si amet
  </button>
 </h2>
@@ -118,10 +118,10 @@ __Animations__
 
 No problem, it is possible using some CSS transitions. You have to keep in mind several things to keep it accessible:
 
-    You can’t animate the display property, and height property might be complicated too to animate.
-    So you can’t use display: none; to hide a content (even for assistive technologies).
-    You have to set up visibility to visible or hidden to show/hide a content.
-    Basically, you should animate max-height, opacity (if needed), and use visibility to hide content to assistive technology.
+- You can’t animate the display property, and height property might be complicated too to animate.
+- So you can’t use display: none; to hide a content (even for assistive technologies).
+- You have to set up visibility to visible or hidden to show/hide a content.
+- Basically, you should animate max-height, opacity (if needed), and use visibility to hide content to assistive technology.
 
 If you have clicked on this section, you might have noticed the animation. Let’s assume we are using this source:
 ```
