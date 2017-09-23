@@ -139,6 +139,7 @@ img {
   width: 1px;
 }
 
+.mb0 { margin-bottom: 0; }
 
 
 /* --------------- styles for expand -----------------------*/
@@ -204,6 +205,66 @@ img {
   display: none;
 }
 
+
+/* dropdown examples */
+.dropdown-container {
+  max-width: 19em; 
+}
+
+.dropdown-expandmore__button {
+  cursor: pointer;
+  background: #10798E;
+  color: #fff;
+  border: 0;
+  font: inherit;
+  font-size: 1em;
+  padding: .5em 1em;
+  position: relative;
+}
+.dropdown-expandmore__button::after {
+  content: '';
+  position: absolute;
+  z-index: 2;
+  width: .5em;
+  height: .5em;
+  top: 100%;
+  left: calc(50% - .25em);
+  border: .5em solid transparent;
+  border-top: .5em solid #10798E;
+  transition: transform .5s ease;
+  transform-origin: top center;
+  transform: scale(1,0);
+}
+[aria-expanded="true"].dropdown-expandmore__button::after {
+  transform: scale(1,1);
+}
+/* This is the opened state */
+.dropdown-expandmore__to_expand {
+  position: absolute;
+  display: block;
+  opacity: 1;
+  transition: visibility 0s ease, transform .5s ease, opacity .5s ease ;
+  transform-origin: top center;
+  transform: scale(1,1);
+  visibility: visible;
+  transition-delay: 0s;
+  max-width: 19em; 
+  padding: 1em;
+  background: #eee;
+}
+/* This is the hidden state */
+[data-hidden=true].dropdown-expandmore__to_expand {
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+  transform: scale(1,0);
+  transition-delay: .5s, 0s, 0s;
+}
+
+/* if you want to avoid first load display, might use modernizr and add selector before this */
+/*.js-first_load {
+  display: none;
+}*/
 
 
 
