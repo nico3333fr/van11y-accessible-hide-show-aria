@@ -30,9 +30,9 @@ Into this:
 ```
 Attribute values are generated on-the-fly (```data-controls="expand_1"```, ```id="expand_1"```, ```data-labelledby="label_expand_1"```), no need to worry about it.
 
-The script is launched when the page is loaded. If you need to execute it on AJAX-inserted content, you may use for example on <div id="newContent">your expand source</div>:
+The script is launched when the page is loaded. If you need to execute it on AJAX-inserted content, you may use for example on ```<div id="newContent">your expand source</div>```:
 
-van11yAccessibleHideShowAria(document.getElementById('newContent'));
+```van11yAccessibleHideShowAria(document.getElementById('newContent'));```
 
 ## How to use it
 
