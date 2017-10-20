@@ -77,23 +77,31 @@
     }
 
 
-    // Find all expand
-    const $listHideShows = () => [].slice.call(doc.querySelectorAll('.' + HIDESHOW_EXPAND));
+    /** Find all expand inside a container
+     * @param  {Node} node Default document
+     * @return {Array}      
+     */
+    const $listHideShows = ( node = doc ) => [].slice.call(node.querySelectorAll('.' + HIDESHOW_EXPAND));
 
-    const onLoad = () => {
 
-        $listHideShows()
-            .forEach((node, index) => {
+    /**
+     * Build expands for a container
+     * @param  {Node} node 
+     */
+    const attach = (node) => {
+
+        $listHideShows(node)
+            .forEach((expand_node, index) => {
 
                 let iLisible = index + 1;
-                // let prefixClassName = typeof node.getAttribute(DATA_PREFIX_CLASS) !== 'undefined' ? node.getAttribute(DATA_PREFIX_CLASS) + '-' : '' ; // IE11+
-                let prefixClassName = node.hasAttribute(DATA_PREFIX_CLASS) === true ? node.getAttribute(DATA_PREFIX_CLASS) + '-' : '';
-                let toExpand = node.nextElementSibling;
-                let expandmoreText = node.innerHTML;
+                // let prefixClassName = typeof expand_node.getAttribute(DATA_PREFIX_CLASS) !== 'undefined' ? expand_node.getAttribute(DATA_PREFIX_CLASS) + '-' : '' ; // IE11+
+                let prefixClassName = expand_node.hasAttribute(DATA_PREFIX_CLASS) === true ? expand_node.getAttribute(DATA_PREFIX_CLASS) + '-' : '';
+                let toExpand = expand_node.nextElementSibling;
+                let expandmoreText = expand_node.innerHTML;
                 let expandButton = doc.createElement("BUTTON");
 
                 // clear element before adding button to it
-                node.innerHTML = '';
+                expand_node.innerHTML = '';
 
                 // create a button with all attributes
                 addClass(expandButton, prefixClassName + HIDESHOW_BUTTON_EXPAND_STYLE);
@@ -107,7 +115,7 @@
                 expandButton.innerHTML = expandmoreText;
 
                 // Button goes into node
-                node.appendChild(expandButton);
+                expand_node.appendChild(expandButton);
 
                 // to expand attributes
                 setAttributes(toExpand, {
@@ -136,7 +144,10 @@
 
             });
 
-        // click on 
+
+    };
+    
+    /* listeners */
         ['click', 'keydown']
         .forEach(eventName => {
 
@@ -179,11 +190,20 @@
 
                     }
                 }, true);
-        });
+    
+
+    });
+
+
+    const onLoad = () => {
+        attach();
         document.removeEventListener('DOMContentLoaded', onLoad);
     }
 
     document.addEventListener('DOMContentLoaded', onLoad);
+
+    window.van11yAccessibleHideShowAria = attach;
+
 
 
 })(document);

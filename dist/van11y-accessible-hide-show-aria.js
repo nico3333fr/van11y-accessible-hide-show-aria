@@ -79,25 +79,33 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
     };
 
-    // Find all expand
+    /** Find all expand inside a container
+     * @param  {Node} node Default document
+     * @return {Array}      
+     */
     var $listHideShows = function $listHideShows() {
-        return [].slice.call(doc.querySelectorAll('.' + HIDESHOW_EXPAND));
+        var node = arguments.length <= 0 || arguments[0] === undefined ? doc : arguments[0];
+        return [].slice.call(node.querySelectorAll('.' + HIDESHOW_EXPAND));
     };
 
-    var onLoad = function onLoad() {
+    /**
+     * Build expands for a container
+     * @param  {Node} node 
+     */
+    var attach = function attach(node) {
 
-        $listHideShows().forEach(function (node, index) {
+        $listHideShows(node).forEach(function (expand_node, index) {
             var _setAttributes, _setAttributes2;
 
             var iLisible = index + 1;
-            // let prefixClassName = typeof node.getAttribute(DATA_PREFIX_CLASS) !== 'undefined' ? node.getAttribute(DATA_PREFIX_CLASS) + '-' : '' ; // IE11+
-            var prefixClassName = node.hasAttribute(DATA_PREFIX_CLASS) === true ? node.getAttribute(DATA_PREFIX_CLASS) + '-' : '';
-            var toExpand = node.nextElementSibling;
-            var expandmoreText = node.innerHTML;
+            // let prefixClassName = typeof expand_node.getAttribute(DATA_PREFIX_CLASS) !== 'undefined' ? expand_node.getAttribute(DATA_PREFIX_CLASS) + '-' : '' ; // IE11+
+            var prefixClassName = expand_node.hasAttribute(DATA_PREFIX_CLASS) === true ? expand_node.getAttribute(DATA_PREFIX_CLASS) + '-' : '';
+            var toExpand = expand_node.nextElementSibling;
+            var expandmoreText = expand_node.innerHTML;
             var expandButton = doc.createElement("BUTTON");
 
             // clear element before adding button to it
-            node.innerHTML = '';
+            expand_node.innerHTML = '';
 
             // create a button with all attributes
             addClass(expandButton, prefixClassName + HIDESHOW_BUTTON_EXPAND_STYLE);
@@ -106,7 +114,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             expandButton.innerHTML = expandmoreText;
 
             // Button goes into node
-            node.appendChild(expandButton);
+            expand_node.appendChild(expandButton);
 
             // to expand attributes
             setAttributes(toExpand, (_setAttributes2 = {}, _defineProperty(_setAttributes2, ATTR_LABELLEDBY, HIDESHOW_BUTTON_LABEL_ID + iLisible), _defineProperty(_setAttributes2, ATTR_HIDDEN, 'true'), _defineProperty(_setAttributes2, 'id', HIDESHOW_TO_EXPAND_ID + iLisible), _setAttributes2));
@@ -128,49 +136,55 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 toExpand.removeAttribute(ATTR_HIDDEN);
             }
         });
+    };
 
-        // click on
-        ['click', 'keydown'].forEach(function (eventName) {
+    /* listeners */
+    ['click', 'keydown'].forEach(function (eventName) {
 
-            doc.body.addEventListener(eventName, function (e) {
-                // click on button
-                if (hasClass(e.target, HIDESHOW_BUTTON_EXPAND) === true && eventName === 'click') {
-                    var button_tag = e.target;
-                    var destination = findById(button_tag.getAttribute(ATTR_CONTROL));
-                    var etat_button = button_tag.getAttribute(ATTR_EXPANDED);
+        doc.body.addEventListener(eventName, function (e) {
+            // click on button
+            if (hasClass(e.target, HIDESHOW_BUTTON_EXPAND) === true && eventName === 'click') {
+                var button_tag = e.target;
+                var destination = findById(button_tag.getAttribute(ATTR_CONTROL));
+                var etat_button = button_tag.getAttribute(ATTR_EXPANDED);
 
-                    // if closed
-                    if (etat_button === 'false') {
-                        button_tag.setAttribute(ATTR_EXPANDED, true);
-                        addClass(button_tag, IS_OPENED_CLASS);
-                        destination.removeAttribute(ATTR_HIDDEN);
-                    } else {
-                        button_tag.setAttribute(ATTR_EXPANDED, false);
-                        removeClass(button_tag, IS_OPENED_CLASS);
-                        destination.setAttribute(ATTR_HIDDEN, true);
+                // if closed
+                if (etat_button === 'false') {
+                    button_tag.setAttribute(ATTR_EXPANDED, true);
+                    addClass(button_tag, IS_OPENED_CLASS);
+                    destination.removeAttribute(ATTR_HIDDEN);
+                } else {
+                    button_tag.setAttribute(ATTR_EXPANDED, false);
+                    removeClass(button_tag, IS_OPENED_CLASS);
+                    destination.setAttribute(ATTR_HIDDEN, true);
+                }
+            }
+            // click on hx (fix for voiceover = click or keydown on hx => click on button.
+            // this makes no sense, but somebody has to do the job to make it fucking work
+            if (hasClass(e.target, HIDESHOW_EXPAND) === true) {
+                var hx_tag = e.target;
+                var button_in = hx_tag.querySelector('.' + HIDESHOW_BUTTON_EXPAND);
+
+                if (hx_tag != button_in) {
+                    if (eventName === 'click') {
+                        triggerEvent(button_in, 'click');
+                        return false;
+                    }
+                    if (eventName === 'keydown' && (13 === e.keyCode || 32 === e.keyCode)) {
+                        triggerEvent(button_in, 'click');
+                        return false;
                     }
                 }
-                // click on hx (fix for voiceover = click or keydown on hx => click on button.
-                // this makes no sense, but somebody has to do the job to make it fucking work
-                if (hasClass(e.target, HIDESHOW_EXPAND) === true) {
-                    var hx_tag = e.target;
-                    var button_in = hx_tag.querySelector('.' + HIDESHOW_BUTTON_EXPAND);
+            }
+        }, true);
+    });
 
-                    if (hx_tag != button_in) {
-                        if (eventName === 'click') {
-                            triggerEvent(button_in, 'click');
-                            return false;
-                        }
-                        if (eventName === 'keydown' && (13 === e.keyCode || 32 === e.keyCode)) {
-                            triggerEvent(button_in, 'click');
-                            return false;
-                        }
-                    }
-                }
-            }, true);
-        });
+    var onLoad = function onLoad() {
+        attach();
         document.removeEventListener('DOMContentLoaded', onLoad);
     };
 
     document.addEventListener('DOMContentLoaded', onLoad);
+
+    window.van11yAccessibleHideShowAria = attach;
 })(document);
