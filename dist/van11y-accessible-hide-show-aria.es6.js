@@ -93,7 +93,7 @@
         $listHideShows(node)
             .forEach((expand_node, index) => {
 
-                let iLisible = index + 1;
+                let iLisible = Math.random().toString(32).slice(2, 12);
                 // let prefixClassName = typeof expand_node.getAttribute(DATA_PREFIX_CLASS) !== 'undefined' ? expand_node.getAttribute(DATA_PREFIX_CLASS) + '-' : '' ; // IE11+
                 let prefixClassName = expand_node.hasAttribute(DATA_PREFIX_CLASS) === true ? expand_node.getAttribute(DATA_PREFIX_CLASS) + '-' : '';
                 let toExpand = expand_node.nextElementSibling;

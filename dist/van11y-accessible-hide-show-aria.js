@@ -97,7 +97,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         $listHideShows(node).forEach(function (expand_node, index) {
             var _setAttributes, _setAttributes2;
 
-            var iLisible = index + 1;
+            var iLisible = Math.random().toString(32).slice(2, 12);
             // let prefixClassName = typeof expand_node.getAttribute(DATA_PREFIX_CLASS) !== 'undefined' ? expand_node.getAttribute(DATA_PREFIX_CLASS) + '-' : '' ; // IE11+
             var prefixClassName = expand_node.hasAttribute(DATA_PREFIX_CLASS) === true ? expand_node.getAttribute(DATA_PREFIX_CLASS) + '-' : '';
             var toExpand = expand_node.nextElementSibling;
