@@ -2,7 +2,8 @@
   "title": "Van11y accessible hide/show (collapsible regions) using ARIA",
   "name": "van11y-accessible-hide-show-aria",
   "description": "ES2015 accessible hide-show system (collapsible regions), using ARIA (compatible IE9+ when transpiled)",
-  "version": "2.0.2",
+  "main": "dist/van11y-accessible-hide-show-aria.min.js",
+  "version": "2.0.3",
   "keywords": [
     "Accessibility",
     "ARIA",
