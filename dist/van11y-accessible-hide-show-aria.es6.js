@@ -76,12 +76,30 @@
         }
     }
 
+    /* gets an element el, search if it is element with class or child of parent class, returns id of the element founded */
+    let searchParent = (el, parentClass) => {
+        let found = false;
+        let parentElement = el;
+        while (parentElement && found === false) {
+            if (hasClass(parentElement, parentClass) === true) {
+                found = true;
+            } else {
+                parentElement = parentElement.parentNode;
+            }
+        }
+        if (found === true) {
+            return parentElement.getAttribute('id');
+        } else {
+            return '';
+        }
+    }
+
 
     /** Find all expand inside a container
      * @param  {Node} node Default document
      * @return {Array}      
      */
-    const $listHideShows = ( node = doc ) => [].slice.call(node.querySelectorAll('.' + HIDESHOW_EXPAND));
+    const $listHideShows = (node = doc) => [].slice.call(node.querySelectorAll('.' + HIDESHOW_EXPAND));
 
 
     /**
@@ -91,7 +109,7 @@
     const attach = (node) => {
 
         $listHideShows(node)
-            .forEach((expand_node, index) => {
+            .forEach((expand_node) => {
 
                 let iLisible = Math.random().toString(32).slice(2, 12);
                 // let prefixClassName = typeof expand_node.getAttribute(DATA_PREFIX_CLASS) !== 'undefined' ? expand_node.getAttribute(DATA_PREFIX_CLASS) + '-' : '' ; // IE11+
@@ -146,51 +164,55 @@
 
 
     };
-    
+
     /* listeners */
-        ['click', 'keydown']
-        .forEach(eventName => {
+    ['click', 'keydown']
+    .forEach(eventName => {
 
-            doc.body
-                .addEventListener(eventName, e => {
-                    // click on button
-                    if (hasClass(e.target, HIDESHOW_BUTTON_EXPAND) === true && eventName === 'click') {
-                        let button_tag = e.target;
-                        let destination = findById(button_tag.getAttribute(ATTR_CONTROL));
-                        let etat_button = button_tag.getAttribute(ATTR_EXPANDED);
+        doc.body
+            .addEventListener(eventName, e => {
 
-                        // if closed
-                        if (etat_button === 'false') {
-                            button_tag.setAttribute(ATTR_EXPANDED, true);
-                            addClass(button_tag, IS_OPENED_CLASS);
-                            destination.removeAttribute(ATTR_HIDDEN);
-                        } else {
-                            button_tag.setAttribute(ATTR_EXPANDED, false);
-                            removeClass(button_tag, IS_OPENED_CLASS);
-                            destination.setAttribute(ATTR_HIDDEN, true);
-                        }
+                // search if click on button or on element in a button (fix for Chrome)
+                let id_expand_button = searchParent(e.target, HIDESHOW_BUTTON_EXPAND);
 
+                // click on button
+                if (id_expand_button !== '' && eventName === 'click') {
+                    let button_tag = findById(id_expand_button);
+                    let destination = findById(button_tag.getAttribute(ATTR_CONTROL));
+                    let etat_button = button_tag.getAttribute(ATTR_EXPANDED);
+
+                    // if closed
+                    if (etat_button === 'false') {
+                        button_tag.setAttribute(ATTR_EXPANDED, true);
+                        addClass(button_tag, IS_OPENED_CLASS);
+                        destination.removeAttribute(ATTR_HIDDEN);
+                    } else {
+                        button_tag.setAttribute(ATTR_EXPANDED, false);
+                        removeClass(button_tag, IS_OPENED_CLASS);
+                        destination.setAttribute(ATTR_HIDDEN, true);
                     }
-                    // click on hx (fix for voiceover = click or keydown on hx => click on button.
-                    // this makes no sense, but somebody has to do the job to make it fucking work
-                    if (hasClass(e.target, HIDESHOW_EXPAND) === true) {
-                        let hx_tag = e.target;
-                        let button_in = hx_tag.querySelector('.' + HIDESHOW_BUTTON_EXPAND)
 
-                        if (hx_tag != button_in) {
-                            if (eventName === 'click') {
-                                triggerEvent(button_in, 'click');
-                                return false;
-                            }
-                            if (eventName === 'keydown' && (13 === e.keyCode || 32 === e.keyCode)) {
-                                triggerEvent(button_in, 'click');
-                                return false;
-                            }
+                }
+                // click on hx (fix for voiceover = click or keydown on hx => click on button.
+                // this makes no sense, but somebody has to do the job to make it fucking work
+                if (hasClass(e.target, HIDESHOW_EXPAND) === true) {
+                    let hx_tag = e.target;
+                    let button_in = hx_tag.querySelector('.' + HIDESHOW_BUTTON_EXPAND)
+
+                    if (hx_tag != button_in) {
+                        if (eventName === 'click') {
+                            triggerEvent(button_in, 'click');
+                            return false;
                         }
-
+                        if (eventName === 'keydown' && (13 === e.keyCode || 32 === e.keyCode)) {
+                            triggerEvent(button_in, 'click');
+                            return false;
+                        }
                     }
-                }, true);
-    
+
+                }
+            }, true);
+
 
     });
 

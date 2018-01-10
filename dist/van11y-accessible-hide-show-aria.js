@@ -79,6 +79,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
     };
 
+    /* gets an element el, search if it is element with class or child of parent class, returns id of the element founded */
+    var searchParent = function searchParent(el, parentClass) {
+        var found = false;
+        var parentElement = el;
+        while (parentElement && found === false) {
+            if (hasClass(parentElement, parentClass) === true) {
+                found = true;
+            } else {
+                parentElement = parentElement.parentNode;
+            }
+        }
+        if (found === true) {
+            return parentElement.getAttribute('id');
+        } else {
+            return '';
+        }
+    };
+
     /** Find all expand inside a container
      * @param  {Node} node Default document
      * @return {Array}      
@@ -94,7 +112,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
      */
     var attach = function attach(node) {
 
-        $listHideShows(node).forEach(function (expand_node, index) {
+        $listHideShows(node).forEach(function (expand_node) {
             var _setAttributes, _setAttributes2;
 
             var iLisible = Math.random().toString(32).slice(2, 12);
@@ -142,9 +160,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     ['click', 'keydown'].forEach(function (eventName) {
 
         doc.body.addEventListener(eventName, function (e) {
+
+            // search if click on button or on element in a button (fix for Chrome)
+            var id_expand_button = searchParent(e.target, HIDESHOW_BUTTON_EXPAND);
+
             // click on button
-            if (hasClass(e.target, HIDESHOW_BUTTON_EXPAND) === true && eventName === 'click') {
-                var button_tag = e.target;
+            if (id_expand_button !== '' && eventName === 'click') {
+                var button_tag = findById(id_expand_button);
                 var destination = findById(button_tag.getAttribute(ATTR_CONTROL));
                 var etat_button = button_tag.getAttribute(ATTR_EXPANDED);
 
