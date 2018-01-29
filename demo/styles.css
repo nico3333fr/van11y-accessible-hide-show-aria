@@ -261,6 +261,33 @@ img {
   transition-delay: .5s, 0s, 0s;
 }
 
+
+/* Another example */
+.simpleplus-expandmore__button {
+  color: #10798E;
+  width: 100%;
+  cursor: pointer;
+  background: transparent;
+  font: inherit;
+  font-size: 1.4em;
+  border: 0;
+  text-align: left;
+}
+.simpleplus-expandmore__symbol:before {
+  content : '+ ';
+}
+.simpleplus-expandmore__button[aria-expanded=true] > .simpleplus-expandmore__symbol:before {
+  content : '− ';
+}
+
+.simpleplus-expandmore__to_expand {
+  display: block;
+}
+/* This is the hidden state */
+[data-hidden=true].simpleplus-expandmore__to_expand {
+  display: none;
+}
+
 /* if you want to avoid first load display, might use modernizr and add selector before this */
 /*.js-first_load {
   display: none;

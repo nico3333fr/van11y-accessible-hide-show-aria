@@ -14,6 +14,10 @@
 
     const DATA_PREFIX_CLASS = 'data-hideshow-prefix-class';
 
+    const HIDESHOW_BUTTON_EMPTY_ELEMENT_SYMBOL = 'expandmore__symbol';
+    const HIDESHOW_BUTTON_EMPTY_ELEMENT_TAG = 'span';
+    const ATTR_HIDESHOW_BUTTON_EMPTY_ELEMENT = 'aria-hidden';
+
     //const HIDESHOW_TO_EXPAND = 'js-to_expand';
     const HIDESHOW_TO_EXPAND_ID = 'expand_';
     const HIDESHOW_TO_EXPAND_STYLE = 'expandmore__to_expand';
@@ -117,6 +121,11 @@
                 let toExpand = expand_node.nextElementSibling;
                 let expandmoreText = expand_node.innerHTML;
                 let expandButton = doc.createElement("BUTTON");
+                let expandButtonEmptyElement = doc.createElement(HIDESHOW_BUTTON_EMPTY_ELEMENT_TAG);
+
+                // empty element for symbol
+                addClass(expandButtonEmptyElement, prefixClassName + HIDESHOW_BUTTON_EMPTY_ELEMENT_SYMBOL);
+                expandButtonEmptyElement.setAttribute(ATTR_HIDESHOW_BUTTON_EMPTY_ELEMENT, true);
 
                 // clear element before adding button to it
                 expand_node.innerHTML = '';
@@ -134,6 +143,7 @@
 
                 // Button goes into node
                 expand_node.appendChild(expandButton);
+                expandButton.insertBefore(expandButtonEmptyElement, expandButton.firstChild);
 
                 // to expand attributes
                 setAttributes(toExpand, {

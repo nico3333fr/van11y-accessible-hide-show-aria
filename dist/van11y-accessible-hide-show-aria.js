@@ -18,6 +18,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     var DATA_PREFIX_CLASS = 'data-hideshow-prefix-class';
 
+    var HIDESHOW_BUTTON_EMPTY_ELEMENT_SYMBOL = 'expandmore__symbol';
+    var HIDESHOW_BUTTON_EMPTY_ELEMENT_TAG = 'span';
+    var ATTR_HIDESHOW_BUTTON_EMPTY_ELEMENT = 'aria-hidden';
+
     //const HIDESHOW_TO_EXPAND = 'js-to_expand';
     var HIDESHOW_TO_EXPAND_ID = 'expand_';
     var HIDESHOW_TO_EXPAND_STYLE = 'expandmore__to_expand';
@@ -121,6 +125,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var toExpand = expand_node.nextElementSibling;
             var expandmoreText = expand_node.innerHTML;
             var expandButton = doc.createElement("BUTTON");
+            var expandButtonEmptyElement = doc.createElement(HIDESHOW_BUTTON_EMPTY_ELEMENT_TAG);
+
+            // empty element for symbol
+            addClass(expandButtonEmptyElement, prefixClassName + HIDESHOW_BUTTON_EMPTY_ELEMENT_SYMBOL);
+            expandButtonEmptyElement.setAttribute(ATTR_HIDESHOW_BUTTON_EMPTY_ELEMENT, true);
 
             // clear element before adding button to it
             expand_node.innerHTML = '';
@@ -133,6 +142,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             // Button goes into node
             expand_node.appendChild(expandButton);
+            expandButton.insertBefore(expandButtonEmptyElement, expandButton.firstChild);
 
             // to expand attributes
             setAttributes(toExpand, (_setAttributes2 = {}, _defineProperty(_setAttributes2, ATTR_LABELLEDBY, HIDESHOW_BUTTON_LABEL_ID + iLisible), _defineProperty(_setAttributes2, ATTR_HIDDEN, 'true'), _defineProperty(_setAttributes2, 'id', HIDESHOW_TO_EXPAND_ID + iLisible), _setAttributes2));
