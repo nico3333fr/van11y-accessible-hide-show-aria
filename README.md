@@ -13,14 +13,14 @@ La page existe aussi en français : https://van11y.net/fr/panneaux-depliants-acc
 ## How it works
 
 Basically, it transforms this:
-```
+```html
 <h2 class="js-expandmore">Lorem dolor si amet</h2>
 <div class="js-to_expand">
    here the hidden content
 </div>
 ```
 Into this:
-```
+```html
 <h2 class="js-expandmore">
   <button data-controls="expand_1" aria-expanded="false" class="expandmore__button" type="button">Lorem dolor si amet</button>
 </h2>
@@ -32,7 +32,10 @@ Attribute values are generated on-the-fly (```data-controls="expand_1"```, ```id
 
 The script is launched when the page is loaded. If you need to execute it on AJAX-inserted content, you may use for example on ```<div id="newContent">your expand source</div>```:
 
-```van11yAccessibleHideShowAria(document.getElementById('newContent'));```
+```js
+var my_expand = van11yAccessibleHideShowAria();
+my_expand.attach(document.getElementById('newContent'));
+```
 
 ## How to use it
 
@@ -43,8 +46,8 @@ You may also use bower: ```bower install van11y-accessible-hide-show-aria```.
 
 __Conventions__
 
-Just follow this convention:
-```
+Just follow this convention (the conventions may be adapted to your needs, see in bonuses):
+```html
 <h2 class="js-expandmore">Lorem dolor si amet</h2>
 <div class="js-to_expand">
    here the hidden content
@@ -58,14 +61,14 @@ Then use the script, it will do the rest.
 __Styles needed to work__
 
 The minimal style needed is:
-```
+```css
 .js-to_expand[aria-hidden=true],
 .js-to_expand[data-hidden=true] {
   display: none;
 }
 ```
 However, as the plugin adds a button into a ```Hx```, you will have to style this case. Here is an example:
-```
+```css
 .expandmore__button {
   background: none;
   font-size: inherit;
@@ -85,14 +88,14 @@ However, as the plugin adds a button into a ```Hx```, you will have to style thi
 ## How to create different styles?
 
 It is possible and very simple, just use the attribute ```data-hideshow-prefix-class="<your_value>"``` like this:
-```
+```html
 <h2 class="js-expandmore" data-hideshow-prefix-class="mini-combo">Lorem dolor si amet</h2>
 <div class="js-to_expand">
    here the hidden content
 </div>
 ```
 It will prefix generated classes, ```<your_value>-expandmore__button``` and ```<your_value>-expandmore__to_expand```, like this:
-```
+```html
 <h2 class="js-expandmore" data-hideshow-prefix-class="mini-combo">
  <button id="label_expand_2" class="mini-combo-expandmore__button js-expandmore-button" data-controls="expand_2" aria-expanded="false" type="button">
   Lorem dolor si amet
@@ -105,7 +108,7 @@ It will prefix generated classes, ```<your_value>-expandmore__button``` and ```<
 
 The script will prefix all classes, so you will able to style elements as you want. If you don’t use it, the script won’t mind.
 
-## bonuses
+## Bonuses
 
 __Opened by default__
 
@@ -128,14 +131,14 @@ No problem, it is possible using some CSS transitions. You have to keep in mind 
 - Basically, you should animate max-height, opacity (if needed), and use visibility to hide content to assistive technology.
 
 If you have clicked on this section, you might have noticed the animation. Let’s assume we are using this source:
-```
+```html
 <h2 class="js-expandmore mb0 mt0" data-hideshow-prefix-class="animated">Bonus: some animations?</h2>
  <div class="js-to_expand">
  …
  </div>
 ```
 So here is the CSS code (unprefixed):
-```
+```css
 /* This is the opened state */
 .animated-expandmore__to_expand {
  display: block;
@@ -160,17 +163,74 @@ Here is the trick: from “hidden” to “visible” state, visibility is immed
 
 From “visible” to “hidden” state, the visibility animation is delayed. So the content will be immediately hidden… at the end of the animation of max-height/opacity.
 
+__Default config__
+
+```js
+const CONFIG = {
+    HIDESHOW_EXPAND: 'js-expandmore',
+    HIDESHOW_BUTTON_EXPAND: 'js-expandmore-button',
+    HIDESHOW_BUTTON_EXPAND_STYLE: 'expandmore__button',
+    HIDESHOW_BUTTON_LABEL_ID: 'label_expand_',
+
+    DATA_PREFIX_CLASS: 'data-hideshow-prefix-class',
+
+    HIDESHOW_BUTTON_EMPTY_ELEMENT_SYMBOL: 'expandmore__symbol',
+    HIDESHOW_BUTTON_EMPTY_ELEMENT_TAG: 'span',
+    ATTR_HIDESHOW_BUTTON_EMPTY_ELEMENT: 'aria-hidden',
+
+    HIDESHOW_TO_EXPAND_ID: 'expand_',
+    HIDESHOW_TO_EXPAND_STYLE: 'expandmore__to_expand',
+
+    /*
+     recommended settings by a11y expert
+    */
+    ATTR_CONTROL: 'data-controls',
+    ATTR_EXPANDED: 'aria-expanded',
+    ATTR_LABELLEDBY: 'data-labelledby',
+    ATTR_HIDDEN: 'data-hidden',
+
+    IS_OPENED_CLASS: 'is-opened',
+
+    DISPLAY_FIRST_LOAD: 'js-first_load',
+    DISPLAY_FIRST_LOAD_DELAY: '1500',
+    ...config
+};
+```
+
+If you need to use another configuration, you may call the plugin like this:
+
+```js
+var other_expand = van11yAccessibleHideShowAria({
+     HIDESHOW_EXPAND: 'js-expandmore2',
+     DATA_PREFIX_CLASS: 'data-hideshow-prefix-class2'
+    });
+other_expand.attach();
+```
+
+
 __ARIA attributes or data attributes?__
 
 No problem. At the beginning of the plugin, you can set up the attributes you need for your special case.
-```
-const ATTR_CONTROL = 'data-controls';
-const ATTR_EXPANDED = 'aria-expanded';
-const ATTR_LABELLEDBY = 'data-labelledby';
-const ATTR_HIDDEN = 'data-hidden';
+```js
+ATTR_CONTROL: 'data-controls',
+ATTR_EXPANDED: 'aria-expanded',
+ATTR_LABELLEDBY: 'data-labelledby',
+ATTR_HIDDEN: 'data-hidden',
 ```
 However, the default settings are recommended by accessibility experts.
 
-If you need to update, you can do it anyway, the plugin will do the rest. Of course, you will have to update your CSS by using the good attributes (```.js-to_expand[data-hidden=true]```).
+If you need to update, you can do it anyway, the plugin will adapt itself. Example:
+
+```js
+var my_expand = van11yAccessibleHideShowAria({
+    ATTR_CONTROL: 'aria-controls',
+    ATTR_EXPANDED: 'aria-expanded',
+    ATTR_LABELLEDBY: 'aria-labelledby',
+    ATTR_HIDDEN: 'aria-hidden',
+    });
+my_expand.attach();
+```
+
+Of course, you will have to update your CSS by using the good attributes.
 
 

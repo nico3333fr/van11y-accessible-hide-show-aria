@@ -3,7 +3,7 @@
 <head>
  <meta charset="utf-8" />
  <title>Demos: Accessible hide/show (collapsible regions) using ARIA and Vanilla JavaScript - Van11y </title>
- 
+
 <link href="./styles.css" rel="stylesheet" media="all" />
 
 <meta name="description" content="This script will transform a simple list of anchors to contents into a fantastic-shiny accessible tabpanel system, using ARIA" />
@@ -58,17 +58,28 @@
  </div>
  <br><br>
  <div class="relative dropdown-container">
-   <h2 class="js-expandmore mb0" data-hideshow-prefix-class="dropdown">Example of drop down button</h2>
-   <div class="js-to_expand"> <!-- js-first_load -->
-      <div>Yes, it rocks too, and you can make content appear with a simple animation.</div>
-   </div>
- </div>
- <br><br><br>
-  
-  
-<div class="footer" role="contentinfo"><br>These demos are some demos of <a href="https://van11y.net/accessible-hide-show/" class="link">Van11y accessible hide/show (collapsible regions) using <abbr title="Accessible Rich Internet Applications">ARIA</abbr></a>.<br></div>
+    <h2 class="js-expandmore2 mb0" data-hideshow-prefix-class2="dropdown" tabindex="0">Example of drop down button</h2>
+    <div class="js-to_expand"> <!-- js-first_load -->
+       <div>Yes, it rocks too, and you can make content appear with a simple animation.
+           <br />And it is loaded with a different configuration.
+       </div>
+    </div>
+  </div>
+ <br><br><br><br>
 
+
+<div class="footer" role="contentinfo"><br>These demos are some demos of <a href="https://van11y.net/accessible-hide-show/" class="link">Van11y accessible hide/show (collapsible regions) using <abbr title="Accessible Rich Internet Applications">ARIA</abbr></a>.<br></div>
+<br><br>
 </div>
 <script src="../dist/van11y-accessible-hide-show-aria.min.js"></script>
+<script>
+
+    var other_expand = van11yAccessibleHideShowAria({
+         HIDESHOW_EXPAND: 'js-expandmore2',
+         DATA_PREFIX_CLASS: 'data-hideshow-prefix-class2'
+        });
+        other_expand.attach();
+
+</script>
 </body>
 </html>
