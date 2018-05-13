@@ -46,7 +46,7 @@ You may also use bower: ```bower install van11y-accessible-hide-show-aria```.
 
 __Conventions__
 
-Just follow this convention (the conventions may be adapted to your needs, see in bonuses):
+Please follow this convention (the conventions may be adapted to your needs, see in bonuses):
 ```html
 <h2 class="js-expandmore">Lorem dolor si amet</h2>
 <div class="js-to_expand">
@@ -87,7 +87,7 @@ However, as the plugin adds a button into a ```Hx```, you will have to style thi
 
 ## How to create different styles?
 
-It is possible and very simple, just use the attribute ```data-hideshow-prefix-class="<your_value>"``` like this:
+It is possible and very simple, you may use the attribute ```data-hideshow-prefix-class="<your_value>"``` like this:
 ```html
 <h2 class="js-expandmore" data-hideshow-prefix-class="mini-combo">Lorem dolor si amet</h2>
 <div class="js-to_expand">
@@ -112,8 +112,8 @@ The script will prefix all classes, so you will able to style elements as you wa
 
 __Opened by default__
 
-No problem, it is possible and very simple, just use the class ```is-opened``` on:
-```
+No problem, it is possible and very simple, use the class ```is-opened``` on:
+```html
 <h2 class="js-expandmore">Lorem dolor si amet</h2>
 <div class="js-to_expand is-opened">
    here the hidden content
