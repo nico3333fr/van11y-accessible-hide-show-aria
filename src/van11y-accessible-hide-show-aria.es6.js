@@ -153,8 +153,10 @@ const plugin = (config = {}) => {
     /**
      * Build expands for a container
      * @param  {Node} node
+     * @param  {addListeners} boolean
      */
     const attach = (node) => {
+        var addListeners = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
 
         $listHideShows(node)
             .forEach((expand_node) => {
@@ -223,8 +225,69 @@ const plugin = (config = {}) => {
 
             });
 
+        if (addListeners) {
+            /* listeners for all configs */
+            ['click', 'keydown']
+            .forEach(eventName => {
+
+                document.body
+                    .addEventListener(eventName, e => {
+
+                        let hashId = searchParentHashId(e.target, DATA_HASH_ID); //e.target.dataset.hashId;
+                        // search if click on button or on element in a button contains data-hash-id (it is needed to load config and know which class to search)
+
+                        if (hashId !== '') {
+
+                            // loading config from element
+                            let CONFIG = pluginConfig.get(hashId);
+
+                            // search if click on button or on element in a button (fix for Chrome)
+                            let id_expand_button = searchParent(e.target, CONFIG.HIDESHOW_BUTTON_EXPAND, hashId);
 
 
+                            // click on button
+                            if (id_expand_button !== '' && eventName === 'click') {
+                                let button_tag = findById(id_expand_button, hashId);
+                                let destination = findById(button_tag.getAttribute(CONFIG.ATTR_CONTROL), hashId);
+                                let etat_button = button_tag.getAttribute(CONFIG.ATTR_EXPANDED);
+
+                                // if closed
+                                if (etat_button === 'false') {
+                                    button_tag.setAttribute(CONFIG.ATTR_EXPANDED, true);
+                                    addClass(button_tag, CONFIG.IS_OPENED_CLASS);
+                                    destination.removeAttribute(CONFIG.ATTR_HIDDEN);
+                                } else {
+                                    button_tag.setAttribute(CONFIG.ATTR_EXPANDED, false);
+                                    removeClass(button_tag, CONFIG.IS_OPENED_CLASS);
+                                    destination.setAttribute(CONFIG.ATTR_HIDDEN, true);
+                                }
+
+                            }
+                            // click on hx (fix for voiceover = click or keydown on hx => click on button.
+                            // this makes no sense, but somebody has to do the job to make it fucking work
+                            if (hasClass(e.target, CONFIG.HIDESHOW_EXPAND) === true) {
+                                let hx_tag = e.target;
+                                let button_in = hx_tag.querySelector('.' + CONFIG.HIDESHOW_BUTTON_EXPAND)
+
+                                if (hx_tag != button_in) {
+                                    if (eventName === 'click') {
+                                        triggerEvent(button_in, 'click');
+                                        return false;
+                                    }
+                                    if (eventName === 'keydown' && (13 === e.keyCode || 32 === e.keyCode)) {
+                                        triggerEvent(button_in, 'click');
+                                        return false;
+                                    }
+                                }
+
+                            }
+
+                        }
+
+                    }, true);
+
+            });
+        }
 
     };
 
@@ -245,70 +308,6 @@ const plugin = (config = {}) => {
 };
 
 const main = () => {
-
-    /* listeners for all configs */
-    ['click', 'keydown']
-    .forEach(eventName => {
-
-        document.body
-            .addEventListener(eventName, e => {
-
-                let hashId = searchParentHashId(e.target, DATA_HASH_ID); //e.target.dataset.hashId;
-                // search if click on button or on element in a button contains data-hash-id (it is needed to load config and know which class to search)
-
-                if (hashId !== '') {
-
-                    // loading config from element
-                    let CONFIG = pluginConfig.get(hashId);
-
-                    // search if click on button or on element in a button (fix for Chrome)
-                    let id_expand_button = searchParent(e.target, CONFIG.HIDESHOW_BUTTON_EXPAND, hashId);
-
-
-                    // click on button
-                    if (id_expand_button !== '' && eventName === 'click') {
-                        let button_tag = findById(id_expand_button, hashId);
-                        let destination = findById(button_tag.getAttribute(CONFIG.ATTR_CONTROL), hashId);
-                        let etat_button = button_tag.getAttribute(CONFIG.ATTR_EXPANDED);
-
-                        // if closed
-                        if (etat_button === 'false') {
-                            button_tag.setAttribute(CONFIG.ATTR_EXPANDED, true);
-                            addClass(button_tag, CONFIG.IS_OPENED_CLASS);
-                            destination.removeAttribute(CONFIG.ATTR_HIDDEN);
-                        } else {
-                            button_tag.setAttribute(CONFIG.ATTR_EXPANDED, false);
-                            removeClass(button_tag, CONFIG.IS_OPENED_CLASS);
-                            destination.setAttribute(CONFIG.ATTR_HIDDEN, true);
-                        }
-
-                    }
-                    // click on hx (fix for voiceover = click or keydown on hx => click on button.
-                    // this makes no sense, but somebody has to do the job to make it fucking work
-                    if (hasClass(e.target, CONFIG.HIDESHOW_EXPAND) === true) {
-                        let hx_tag = e.target;
-                        let button_in = hx_tag.querySelector('.' + CONFIG.HIDESHOW_BUTTON_EXPAND)
-
-                        if (hx_tag != button_in) {
-                            if (eventName === 'click') {
-                                triggerEvent(button_in, 'click');
-                                return false;
-                            }
-                            if (eventName === 'keydown' && (13 === e.keyCode || 32 === e.keyCode)) {
-                                triggerEvent(button_in, 'click');
-                                return false;
-                            }
-                        }
-
-                    }
-
-                }
-
-
-            }, true);
-
-
-    });
 
     return plugin;
 
